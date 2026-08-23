@@ -123,6 +123,41 @@ nav button.on{color:var(--green)}
   <div class="card"><div class="eyebrow" style="margin-bottom:6px">Tarjeta de crédito</div><div id="card"></div></div>
 </section>
 
+<section class="view" id="v-plan">
+  <div class="card">
+    <div class="eyebrow">Excedente mensual</div>
+    <div class="big mono" id="pExc">$0</div>
+    <div class="sub" id="pExcSub"></div>
+    <div class="kv" style="margin-top:8px"><span>Según presupuesto</span><b class="mono" id="pExcB"></b></div>
+    <div class="kv"><span>Según gastos reales</span><b class="mono" id="pExcR"></b></div>
+  </div>
+  <div class="card">
+    <div class="eyebrow">Fase actual</div>
+    <div id="pPhase" style="margin-top:8px"></div>
+  </div>
+  <div class="card">
+    <div class="row" style="justify-content:space-between"><div class="eyebrow">1 · Fondo de emergencia</div><span class="sub" id="pFondoTag"></span></div>
+    <div class="big mono" id="pFondo"></div>
+    <div class="prog" id="pFondoProg"><i></i></div>
+    <div class="sub" id="pFondoSub"></div>
+    <div class="row" style="margin-top:10px"><div style="flex:1"><label class="f">Ahorrado</label><input type="number" data-p="fondoAhorrado"></div><div style="flex:1"><label class="f">Meses de gastos</label><select data-p="fondoMeses"><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></div></div>
+  </div>
+  <div class="card">
+    <div class="eyebrow">2 · Carro</div>
+    <div class="row" style="margin-top:4px"><div style="flex:1"><label class="f">Precio</label><input type="number" step="1000000" data-p="carroPrecio"></div><div style="flex:1"><label class="f">Inicial %</label><input type="number" data-p="carroPct"></div></div>
+    <div class="row"><div style="flex:1"><label class="f">Plazo (meses)</label><input type="number" data-p="carroPlazo"></div><div style="flex:1"><label class="f">Tasa E.A. %</label><input type="number" step="0.5" data-p="carroTasa"></div></div>
+    <div class="row"><div style="flex:1"><label class="f">Seguro+gasolina /mes</label><input type="number" step="50000" data-p="carroUso"></div><div style="flex:1"><label class="f">Ahorrado p/ inicial</label><input type="number" data-p="carroAhorrado"></div></div>
+    <div id="pCarro" style="margin-top:12px"></div>
+  </div>
+  <div class="card">
+    <div class="eyebrow">3 · Casa</div>
+    <div class="row" style="margin-top:4px"><div style="flex:1"><label class="f">Precio</label><input type="number" step="10000000" data-p="casaPrecio"></div><div style="flex:1"><label class="f">Inicial %</label><input type="number" data-p="casaPct"></div></div>
+    <div class="row"><div style="flex:1"><label class="f">Plazo (años)</label><input type="number" data-p="casaAnos"></div><div style="flex:1"><label class="f">Rendimiento anual %</label><input type="number" data-p="casaRend"></div></div>
+    <div class="row"><div style="flex:1"><label class="f">Aporte mensual</label><input type="number" step="100000" data-p="casaAporte"></div><div style="flex:1"><label class="f">Ahorrado</label><input type="number" data-p="casaAhorrado"></div></div>
+    <div id="pCasa" style="margin-top:12px"></div>
+  </div>
+</section>
+
 <section class="view" id="v-set">
   <div class="card">
     <div class="eyebrow">Ingreso y tarjeta</div>
@@ -131,7 +166,8 @@ nav button.on{color:var(--green)}
     <div class="sub" style="margin-top:8px">Para el puntaje, usa entre 10% y 30% del cupo y paga el total cada mes.</div>
   </div>
   <div class="card">
-    <div class="eyebrow" style="margin-bottom:8px">Categorías y presupuesto mensual</div>
+    <div class="eyebrow" style="margin-bottom:4px">Categorías y presupuesto mensual</div>
+    <div class="sub" style="margin-bottom:8px">Marca ✓ las esenciales (las que pagarías sí o sí en una emergencia). El fondo se calcula sobre ellas.</div>
     <table id="catTable"></table>
     <div style="margin-top:10px"><button class="btn sm ghost" id="addCat">Agregar categoría</button></div>
   </div>
@@ -149,6 +185,7 @@ nav button.on{color:var(--green)}
   <button data-v="add" class="on"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Registrar</button>
   <button data-v="list"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Movimientos</button>
   <button data-v="sum"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 15v-5M12 15V8M16 15v-3"/></svg>Resumen</button>
+  <button data-v="plan"><svg viewBox="0 0 24 24"><path d="M3 20l6-8 4 5 8-11"/><path d="M16 6h5v5"/></svg>Plan</button>
   <button data-v="set"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Ajustes</button>
 </nav>
 <div class="toast" id="toast"></div>
@@ -168,8 +205,13 @@ function load(){
   return{income:8000000,cupo:1000000,cats:[
     ["Comida",1000000],["Transporte",300000],["Ocio",1000000],["Arriendo",800000],["Cuota hijos",1000000],["Cuota mamá",400000],
     ["Colegio",380000],["Patinaje",60000],["Servicios",100000],["Celular",50000],["Internet",50000],["Suscripciones",108000],["Otros",0]
-  ].map((c,i)=>({id:"c"+i,name:c[0],budget:c[1]})),items:[]};
+  ].map((c,i)=>({id:"c"+i,name:c[0],budget:c[1]})),items:[],
+  essential:["Comida","Transporte","Arriendo","Cuota hijos","Cuota mamá","Colegio","Patinaje","Servicios","Celular","Internet"],
+  plan:{fondoAhorrado:0,fondoMeses:3,carroPrecio:80000000,carroPct:10,carroPlazo:60,carroTasa:19,carroUso:700000,carroAhorrado:0,
+        casaPrecio:300000000,casaPct:30,casaAnos:5,casaAporte:1500000,casaRend:8,casaAhorrado:0}};
 }
+function ensure(){if(!S.plan)S.plan={fondoAhorrado:0,fondoMeses:3,carroPrecio:80000000,carroPct:10,carroPlazo:60,carroTasa:19,carroUso:700000,carroAhorrado:0,casaPrecio:300000000,casaPct:30,casaAnos:5,casaAporte:1500000,casaRend:8,casaAhorrado:0};if(!S.essential)S.essential=[]}
+ensure();
 function save(){localStorage.setItem(KEY,JSON.stringify(S))}
 let sel={cat:S.cats[0]?.id,method:"debito"};
 let toastT;
@@ -178,7 +220,7 @@ const catName=id=>S.cats.find(c=>c.id===id)?.name||"—";
 const methodName=id=>METHODS.find(m=>m[0]===id)?.[1]||id;
 
 /* nav */
-const titles={add:"Registrar",list:"Movimientos",sum:"Resumen",set:"Ajustes"};
+const titles={add:"Registrar",list:"Movimientos",sum:"Resumen",plan:"Plan",set:"Ajustes"};
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
   document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x===b));
   document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+b.dataset.v));
@@ -249,8 +291,9 @@ function renderSum(){
 /* ajustes */
 function renderSet(){
   $("#income").value=S.income;$("#cupo").value=S.cupo;
-  $("#catTable").innerHTML=S.cats.map(c=>`<tr><td><input class="txt" data-f="name" data-id="${c.id}" value="${c.name.replace(/"/g,"&quot;")}"></td><td style="width:38%"><input type="number" data-f="budget" data-id="${c.id}" value="${c.budget}"></td><td style="width:30px"><button class="del" data-id="${c.id}" aria-label="Eliminar" style="background:none;border:0;font-size:18px;color:var(--mute)">×</button></td></tr>`).join("");
-  $("#catTable").querySelectorAll("input").forEach(i=>i.onchange=()=>{const c=S.cats.find(x=>x.id===i.dataset.id);c[i.dataset.f]=i.dataset.f==="budget"?+i.value:i.value;save();renderChips()});
+  $("#catTable").innerHTML=S.cats.map(c=>`<tr><td style="width:28px"><input type="checkbox" data-ess="${c.id}" ${S.essential.includes(c.name)?"checked":""} aria-label="Esencial"></td><td><input class="txt" data-f="name" data-id="${c.id}" value="${c.name.replace(/"/g,"&quot;")}"></td><td style="width:38%"><input type="number" data-f="budget" data-id="${c.id}" value="${c.budget}"></td><td style="width:30px"><button class="del" data-id="${c.id}" aria-label="Eliminar" style="background:none;border:0;font-size:18px;color:var(--mute)">×</button></td></tr>`).join("");
+  $("#catTable").querySelectorAll("input[data-ess]").forEach(i=>i.onchange=()=>{const c=S.cats.find(x=>x.id===i.dataset.ess);S.essential=S.essential.filter(n=>n!==c.name);if(i.checked)S.essential.push(c.name);save();renderPlan()});
+  $("#catTable").querySelectorAll("input[data-f]").forEach(i=>i.onchange=()=>{const c=S.cats.find(x=>x.id===i.dataset.id);c[i.dataset.f]=i.dataset.f==="budget"?+i.value:i.value;save();renderChips()});
   $("#catTable").querySelectorAll(".del").forEach(b=>b.onclick=()=>{if(S.items.some(i=>i.cat===b.dataset.id)){alert("Esta categoría tiene gastos registrados. Renómbrala en vez de eliminarla.");return}S.cats=S.cats.filter(c=>c.id!==b.dataset.id);if(sel.cat===b.dataset.id)sel.cat=S.cats[0]?.id;save();render()});
 }
 $("#income").onchange=e=>{S.income=+e.target.value;save()};
@@ -262,9 +305,49 @@ $("#importFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new
 $("#wipe").onclick=()=>{if(confirm("¿Borrar todos los gastos y configuraciones? No se puede deshacer."))if(confirm("Última confirmación: ¿borrar todo?")){localStorage.removeItem(KEY);S=load();sel.cat=S.cats[0]?.id;render()}};
 function download(name,content,type){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
 
+/* plan */
+function cuota(monto,tasaEA,n){if(monto<=0||n<=0)return 0;const i=Math.pow(1+tasaEA/100,1/12)-1;return i===0?monto/n:monto*i/(1-Math.pow(1+i,-n))}
+function vf(aporte,rend,n,ini){const i=Math.pow(1+rend/100,1/12)-1;let v=ini;for(let k=0;k<n;k++)v=v*(1+i)+aporte;return v}
+function mesesMeta(meta,aporteFn,rend,ini){const i=Math.pow(1+rend/100,1/12)-1;let v=ini,m=0;while(v<meta&&m<600){v=v*(1+i)+Math.max(aporteFn(m),0);m++}return m}
+function aporteNec(meta,rend,n,ini){let lo=0,hi=meta;for(let k=0;k<40;k++){const mid=(lo+hi)/2;if(vf(mid,rend,n,ini)>=meta)hi=mid;else lo=mid}return hi}
+const fecha=m=>{if(!isFinite(m)||m>=600)return"—";const d=new Date();d.setMonth(d.getMonth()+m);return MESES[d.getMonth()]+" "+d.getFullYear()};
+const anos=m=>!isFinite(m)||m>=600?"más de 50 años":m<12?m+" meses":(m/12).toFixed(1)+" años";
+function excedentes(){
+  const budgetTotal=S.cats.reduce((a,c)=>a+(+c.budget||0),0);
+  const excB=S.income-budgetTotal;
+  const cur=mk(today());const closed=months().filter(k=>k<cur);
+  let excR=null;
+  if(closed.length){const use=closed.slice(0,3);const avg=use.reduce((a,k)=>a+S.items.filter(i=>mk(i.date)===k).reduce((x,i)=>x+i.amt,0),0)/use.length;excR={v:S.income-avg,n:use.length}}
+  return{excB,excR,exc:excR?excR.v:excB};
+}
+function renderPlan(){
+  ensure();const P=S.plan;
+  document.querySelectorAll("#v-plan [data-p]").forEach(i=>{if(document.activeElement!==i)i.value=P[i.dataset.p]});
+  const {excB,excR,exc}=excedentes();
+  $("#pExc").textContent=fmt(exc);$("#pExc").style.color=exc>=0?"var(--green)":"var(--rose)";
+  $("#pExcB").textContent=fmt(excB);$("#pExcR").textContent=excR?fmt(excR.v)+` (prom. ${excR.n} mes${excR.n>1?"es":""})`:"Aún sin un mes cerrado";
+  $("#pExcSub").textContent=excR?"Calculado con tus gastos reales. Esto es lo que de verdad puede ir a las metas.":"Por ahora usa el presupuesto; al cerrar el primer mes cambia a datos reales.";
+  const esenciales=S.cats.filter(c=>S.essential.includes(c.name)).reduce((a,c)=>a+(+c.budget||0),0);
+  const metaF=esenciales*P.fondoMeses;const faltaF=Math.max(metaF-P.fondoAhorrado,0);const mF=exc>0?Math.ceil(faltaF/exc):Infinity;const fondoOk=faltaF===0;
+  $("#pFondo").innerHTML=`${fmt(P.fondoAhorrado)} <span class="sub">de ${fmt(metaF)}</span>`;
+  $("#pFondoProg").firstElementChild.style.width=Math.min(100,P.fondoAhorrado/Math.max(metaF,1)*100)+"%";
+  $("#pFondoTag").textContent=fondoOk?"Completo":isFinite(mF)?"Listo en "+fecha(mF):"Sin excedente";
+  $("#pFondoSub").textContent=`${P.fondoMeses} meses de gastos esenciales (${fmt(esenciales)}/mes). Guárdalo en un fondo a la vista o cuenta de alto rendimiento.`;
+  const ini=P.carroPrecio*P.carroPct/100,cred=P.carroPrecio-ini,cu=cuota(cred,P.carroTasa,P.carroPlazo),intT=cu*P.carroPlazo-cred,costo=cu+(+P.carroUso||0),libre=exc-costo;
+  const faltaC=Math.max(ini-P.carroAhorrado,0);const mC=exc>0?Math.ceil(faltaC/exc):Infinity;
+  $("#pCarro").innerHTML=`<div class="kv"><span>Cuota inicial</span><b class="mono">${fmt(ini)}</b></div><div class="kv"><span>Reunes la inicial en</span><b class="mono">${faltaC===0?"Completa":isFinite(mC)?mC+" meses"+(fondoOk?"":" tras el fondo"):"—"}</b></div><div class="kv"><span>Cuota del crédito</span><b class="mono">${fmt(cu)}</b></div><div class="kv"><span>Intereses totales</span><b class="mono" style="color:var(--rose)">${fmt(intT)}</b></div><div class="kv"><span>Costo real al mes</span><b class="mono">${fmt(costo)}</b></div><div class="kv"><span>Excedente libre con carro</span><b class="mono" style="color:${libre>=0?"var(--green)":"var(--rose)"}">${fmt(libre)}</b></div><div class="sub" style="margin-top:6px">${Math.round(costo/Math.max(exc,1)*100)}% de tu excedente iría al carro durante ${P.carroPlazo} meses.</div>`;
+  const metaH=P.casaPrecio*P.casaPct/100;const proy=vf(P.casaAporte,P.casaRend,P.casaAnos*12,P.casaAhorrado);
+  const mH=mesesMeta(metaH,()=>P.casaAporte,P.casaRend,P.casaAhorrado);
+  const mSin=mesesMeta(metaH,()=>exc,P.casaRend,P.casaAhorrado);const mCon=mesesMeta(metaH,m=>m<P.carroPlazo?libre:exc,P.casaRend,P.casaAhorrado);
+  $("#pCasa").innerHTML=`<div class="kv"><span>Meta (cuota inicial)</span><b class="mono">${fmt(metaH)}</b></div><div class="kv"><span>Con ${fmt(P.casaAporte)}/mes llegas en</span><b class="mono" style="color:${mH<=P.casaAnos*12?"var(--green)":"var(--rose)"}">${anos(mH)}</b></div><div class="kv"><span>Aporte necesario en ${P.casaAnos} años</span><b class="mono">${fmt(aporteNec(metaH,P.casaRend,P.casaAnos*12,P.casaAhorrado))}</b></div><div class="kv"><span>Si va todo el excedente, sin carro</span><b class="mono">${anos(mSin)}</b></div><div class="kv"><span>Todo el excedente, con el carro de arriba</span><b class="mono" style="color:${mCon<=P.casaAnos*12?"var(--green)":"var(--rose)"}">${anos(mCon)}</b></div><div class="sub" style="margin-top:6px">Proyección al ${P.casaRend}% anual, no una garantía. Vehículo sugerido: cuenta AFC; confírmalo con un contador.</div>`;
+  const ph=[["Estructura","separar el excedente el día de pago",P.fondoAhorrado>0],["Fondo de emergencia",fmt(metaF),fondoOk],["Carro","inicial "+fmt(ini),faltaC===0],["Casa","inicial "+fmt(metaH)+" en "+P.casaAnos+" años",P.casaAhorrado>=metaH]];
+  let nowSet=false;$("#pPhase").innerHTML=ph.map(([t,d,done])=>{const now=!done&&!nowSet;if(now)nowSet=true;return`<div class="kv"><span>${t} <span class="sub">· ${d}</span></span><b style="color:${done?"var(--green)":now?"var(--amber)":"var(--mute)"}">${done?"Listo":now?"Ahora":"Después"}</b></div>`}).join("");
+}
+document.querySelectorAll("#v-plan [data-p]").forEach(i=>i.onchange=()=>{S.plan[i.dataset.p]=+i.value;save();renderPlan()});
+
 function render(){
   $("#hdr").textContent=new Date().toLocaleDateString("es-CO",{day:"numeric",month:"short"});
-  renderChips();renderToday();renderMonthSel();renderList();renderSum();renderSet();
+  renderChips();renderToday();renderMonthSel();renderList();renderSum();renderPlan();renderSet();
 }
 render();
 
