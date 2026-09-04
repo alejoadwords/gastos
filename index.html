@@ -325,7 +325,7 @@ const kindOf=i=>i.kind||"gasto";
 const norm=s=>(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 
 /* ---------- estado ---------- */
-let S=load();
+let S;
 function load(){
   try{const r=JSON.parse(localStorage.getItem(KEY));if(r)return migrate(r)}catch(e){}
   return migrate(defaults());
@@ -389,6 +389,8 @@ function migrate(d){
   return d;
 }
 function save(){localStorage.setItem(KEY,JSON.stringify(S))}
+
+S=load();
 
 let sel={cat:null,method:"debito",src:null,kind:"gasto",filt:"all"};
 sel.cat=(S.cats[0]||{}).id;sel.src=(S.sources[0]||{}).id;
