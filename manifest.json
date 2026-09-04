@@ -1,7 +1,7 @@
 {
   "name": "Mis Gastos",
   "short_name": "Gastos",
-  "description": "Registro diario de gastos",
+  "description": "Registro diario de gastos e ingresos",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

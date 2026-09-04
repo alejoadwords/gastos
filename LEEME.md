@@ -1,30 +1,22 @@
-# Mis Gastos — PWA
+# Mis Gastos — actualización v2
 
-Cuatro archivos: `index.html`, `manifest.json`, `sw.js`, `icon.svg`. Deben quedar juntos en la misma carpeta.
+Reemplaza los cuatro archivos del repositorio: `index.html`, `manifest.json`, `sw.js`, `icon.svg`.
 
-## Publicarla (5 minutos, gratis)
+## Antes de subir
+Ya tienes el respaldo `gastos-respaldo-2026-09-04.json`. Guárdalo en Drive. No deberías necesitarlo, pero es tu red.
 
-**Opción A — Netlify Drop (la más rápida)**
-1. Entra a https://app.netlify.com/drop
-2. Arrastra la carpeta `gastos` completa.
-3. Te da una URL tipo `https://algo.netlify.app`. Listo.
+## Qué pasa al abrir la app nueva
+Los datos siguen guardados bajo la misma clave (`gastos:v1`), así que cargan solos. La primera vez que abras la versión nueva corre una migración automática que:
 
-**Opción B — GitHub Pages**
-1. Crea un repositorio nuevo en GitHub (puede ser privado con plan pago; público es gratis).
-2. Sube los cuatro archivos a la raíz.
-3. Settings → Pages → Source: Deploy from branch → main → / (root) → Save.
-4. La URL queda en `https://TU_USUARIO.github.io/NOMBRE_REPO/`.
+1. Crea 6 categorías: Ropa y calzado, Cuidado personal, Salud y bienestar, Hogar y mercado, Regalos y donaciones, Deudas.
+2. Reclasifica 25 movimientos que estaban mal ubicados, leyendo la nota de cada uno.
+3. Convierte "Abono tarjeta de crédito" en un pago, no en un gasto.
+4. Crea las fuentes de ingreso: Salario, Freelance, Otro.
 
-La app necesita HTTPS para instalarse como PWA; ambas opciones lo dan por defecto.
+La migración solo corre una vez (marca `v: 2` en los datos). Volver a abrir la app no la repite.
 
-## Instalarla en el celular
-- **Android (Chrome):** abre la URL → aparece el botón "Instalar" dentro de la app, o menú ⋮ → "Instalar aplicación".
-- **iPhone (Safari):** abre la URL → botón Compartir → "Agregar a pantalla de inicio".
-
-Funciona sin conexión después de la primera carga.
+## Si el celular sigue mostrando la versión vieja
+Cierra la app del todo y vuelve a abrirla. El service worker nuevo se actualiza solo en uno o dos minutos.
 
 ## Cierre de mes
-Ajustes → "Exportar JSON" (o Movimientos → "CSV"). Sube ese archivo al proyecto de Claude para el análisis con datos reales.
-
-## Importante
-Los datos viven en el navegador del teléfono. Si borras datos del navegador o cambias de celular, los pierdes: exporta el respaldo cada mes y guárdalo en Drive.
+Ajustes → Exportar JSON. Sube ese archivo al proyecto para el análisis.
