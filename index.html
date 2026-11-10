@@ -14,8 +14,9 @@
 <style>
 :root{--ink:#14231f;--paper:#f2f4f1;--card:#fff;--green:#0f3d2e;--green-soft:#dcebe2;--amber:#d99a1e;--amber-soft:#fbefd3;--blue:#2c5f8a;--blue-soft:#dceaf5;--rose:#b8443c;--rose-soft:#f6dcd9;--mute:#6b7570;--line:#dfe3df;--safe-b:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px}
-body{padding-bottom:calc(72px + var(--safe-b))}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{padding-bottom:calc(72px + var(--safe-b));overflow-x:hidden}
+main,.card{min-width:0;max-width:100%}
 .mono{font-variant-numeric:tabular-nums;font-family:ui-monospace,"SF Mono",Menlo,monospace}
 header{padding:calc(14px + env(safe-area-inset-top,0px)) 18px 10px;display:flex;justify-content:space-between;align-items:baseline}
 header h1{font:400 22px Georgia,serif;margin:0}
@@ -41,7 +42,19 @@ main{padding:0 14px}
 .seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
 .row{display:flex;gap:10px;align-items:center}
 label.f{display:block;font-size:12px;color:var(--mute);margin:10px 0 4px}
-input[type=text],input[type=number],input[type=date],select{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-size:15px;background:#fff;color:var(--ink);font-family:inherit}
+/* 16px mínimo: por debajo de eso iOS hace zoom al enfocar el campo */
+input[type=text],input[type=number],input[type=date],select{display:block;width:100%;min-width:0;max-width:100%;height:46px;border:1px solid var(--line);border-radius:10px;padding:0 12px;font-size:16px;background:#fff;color:var(--ink);font-family:inherit;margin:0}
+input[type=date]{-webkit-appearance:none;appearance:none;text-align:left;line-height:44px}
+input[type=date]::-webkit-date-and-time-value{text-align:left;margin:0}
+select{-webkit-appearance:none;appearance:none;padding-right:36px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%236b7570' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center}
+select.big-sel{height:52px;font-size:17px;font-weight:500}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:10px}
+.grid2h{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.grid2>div,.grid2h>div{min-width:0}
+.amount input[type=text]{border:0;background:transparent;height:auto;padding:0;font:500 44px/1.1 ui-monospace,Menlo,monospace;color:var(--green)}
+.amount.in input[type=text]{color:var(--blue)}
+.chk{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:14px;cursor:pointer}
+.chk input{width:20px;height:20px;accent-color:var(--green);margin:0;flex:none}
 .btn{border:0;border-radius:11px;padding:14px;font-size:16px;font-weight:600;width:100%;cursor:pointer;background:var(--green);color:#fff;font-family:inherit}
 .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line);font-weight:500;padding:11px}
 .btn.blue{background:var(--blue)}
@@ -49,6 +62,7 @@ input[type=text],input[type=number],input[type=date],select{width:100%;border:1p
 .kv{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid #f0f2f0;font-size:14px}
 .kv:last-child{border:0}
 .kv span{color:var(--mute)}
+.kv b{white-space:nowrap;margin-left:10px}
 .prog{height:7px;background:#eef1ee;border-radius:99px;overflow:hidden;margin:7px 0 3px}
 .prog i{display:block;height:100%;background:var(--green);border-radius:99px}
 .prog.warn i{background:var(--amber)}.prog.over i{background:var(--rose)}
@@ -65,8 +79,23 @@ input[type=text],input[type=number],input[type=date],select{width:100%;border:1p
 .tag.a{background:var(--amber-soft);color:#8a6110}
 table{width:100%;border-collapse:collapse;font-size:14px}
 td{padding:6px 4px;border-bottom:1px solid #f0f2f0;vertical-align:middle}
-td input.txt{border:0;border-bottom:1px dashed var(--line);border-radius:0;padding:5px 2px;font-size:14px}
-td input.num{border:0;border-bottom:1px dashed var(--line);border-radius:0;padding:5px 2px;font-size:14px;text-align:right;font-family:ui-monospace,Menlo,monospace}
+td input.txt{border:0;border-bottom:1px dashed var(--line);border-radius:0;padding:5px 2px;font-size:16px;height:auto}
+td input.num{border:0;border-bottom:1px dashed var(--line);border-radius:0;padding:5px 2px;font-size:16px;height:auto;text-align:right;font-family:ui-monospace,Menlo,monospace}
+.seg.m4 button{padding:9px 2px;font-size:13.5px}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:4px 10px;border-radius:99px;background:var(--green-soft);color:var(--green)}
+.pill.r{background:var(--rose-soft);color:var(--rose)}.pill.a{background:var(--amber-soft);color:#8a6110}.pill.b{background:var(--blue-soft);color:var(--blue)}
+.payer{border:1px solid var(--line);border-radius:11px;padding:10px 12px;margin-top:8px}
+.payer .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+.payer select,.payer input{height:40px}
+.alert{border-left:3px solid var(--amber);background:var(--amber-soft);border-radius:8px;padding:10px 12px;font-size:13.5px;line-height:1.45;margin-top:8px}
+.alert.r{border-color:var(--rose);background:var(--rose-soft)}
+.alert.b{border-color:var(--blue);background:var(--blue-soft)}
+.alert b{display:block;margin-bottom:2px}
+.ck{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #f0f2f0;font-size:14px;line-height:1.4}
+.ck:last-child{border:0}
+.ck input{width:19px;height:19px;margin:1px 0 0;accent-color:var(--green);flex:none}
+.ck.done span{color:var(--mute);text-decoration:line-through}
+.fine{font-size:12px;color:var(--mute);line-height:1.45}
 nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding-bottom:var(--safe-b);z-index:10}
 nav button{flex:1;border:0;background:transparent;padding:9px 2px 8px;font-size:10px;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;font-family:inherit}
 nav button.on{color:var(--green);font-weight:600}
@@ -101,24 +130,27 @@ nav svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;st
     <div class="amount" id="amtWrap"><span>$</span><input id="amt" type="text" inputmode="numeric" placeholder="0"></div>
 
     <div id="blkCat">
-      <div class="eyebrow" style="margin-top:6px">Categoría</div>
-      <div class="chips" id="catChips"></div>
+      <label class="f" for="catSel">Categoría</label>
+      <select id="catSel" class="big-sel"></select>
     </div>
 
     <div id="blkSrc" style="display:none">
-      <div class="eyebrow" style="margin-top:6px">Fuente</div>
-      <div class="chips" id="srcChips"></div>
+      <label class="f" for="srcSel">Fuente</label>
+      <select id="srcSel" class="big-sel"></select>
     </div>
 
     <div id="blkMethod">
-      <div class="eyebrow" style="margin-top:14px">Medio</div>
-      <div class="chips" id="methodChips"></div>
+      <label class="f">Medio</label>
+      <div class="seg m4" id="methodSeg"></div>
     </div>
 
-    <div class="row" style="margin-top:6px">
-      <div style="flex:1"><label class="f">Fecha</label><input type="date" id="date"></div>
-      <div style="flex:1.4"><label class="f">Nota</label><input type="text" id="note" placeholder="Opcional"></div>
+    <div class="grid2">
+      <div><label class="f" for="date">Fecha</label><input type="date" id="date"></div>
+      <div><label class="f" for="note" id="noteLbl">Nota</label><input type="text" id="note" placeholder="Opcional" autocomplete="off"></div>
     </div>
+    <datalist id="payerList"></datalist>
+
+    <label class="chk" id="blkFe"><input type="checkbox" id="fe"><span>Pedí factura electrónica a mi cédula <span class="sub">· 1% deducible</span></span></label>
 
     <div style="margin-top:14px"><button class="btn" id="save">Guardar</button></div>
   </div>
@@ -269,6 +301,99 @@ nav svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;st
   </div>
 </section>
 
+<!-- ============ FISCAL ============ -->
+<section class="view" id="v-tax">
+  <div class="card">
+    <div class="row" style="justify-content:space-between">
+      <div class="eyebrow">Año gravable</div>
+      <span id="xUvt" class="sub mono"></span>
+    </div>
+    <select id="xYear" style="margin-top:8px"></select>
+    <div style="margin-top:12px" id="xStatus"></div>
+    <div class="fine" id="xBasis" style="margin-top:8px"></div>
+  </div>
+
+  <div class="card">
+    <div class="eyebrow">¿Debes declarar renta?</div>
+    <div class="fine" style="margin:4px 0 6px">Basta con superar un solo tope. Barra = proyección a 31 de diciembre.</div>
+    <div id="xTopes"></div>
+  </div>
+
+  <div class="card">
+    <div class="eyebrow">Impuesto estimado · cédula general</div>
+    <div class="big mono" id="xSaldo">$0</div>
+    <div class="sub" id="xSaldoSub"></div>
+    <div id="xCalc" style="margin-top:10px"></div>
+    <div class="note" id="xProv" style="margin:12px 0 0"></div>
+  </div>
+
+  <div class="card">
+    <div class="eyebrow">Alertas</div>
+    <div id="xAlerts"></div>
+  </div>
+
+  <div class="card">
+    <div class="eyebrow">Tus pagadores</div>
+    <div class="fine" style="margin:4px 0 2px">Registras lo que te llega a la cuenta (neto). Con la retención de cada pagador la app reconstruye el ingreso bruto y lo que ya te retuvieron.</div>
+    <div id="xPayers"></div>
+  </div>
+
+  <div class="card">
+    <div class="eyebrow">Antes de usar la app</div>
+    <div class="fine" style="margin:4px 0 4px" id="xIniHint"></div>
+    <div class="grid2h">
+      <div><label class="f">Ingresos brutos</label><input type="number" inputmode="numeric" data-xi="ingresos"></div>
+      <div><label class="f">Retenciones</label><input type="number" inputmode="numeric" data-xi="retenciones"></div>
+      <div><label class="f">Compras y consumos</label><input type="number" inputmode="numeric" data-xi="compras"></div>
+      <div><label class="f">Consumos con tarjeta crédito</label><input type="number" inputmode="numeric" data-xi="tc"></div>
+      <div><label class="f">Compras con factura electrónica</label><input type="number" inputmode="numeric" data-xi="fe"></div>
+      <div><label class="f">Pagos con débito/transferencia</label><input type="number" inputmode="numeric" data-xi="salidas"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="eyebrow">Deducciones y aportes del año</div>
+    <div class="grid2h">
+      <div><label class="f">Dependientes (0–4)</label><select data-xf="deps"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select></div>
+      <div><label class="f">Seguridad social pagada (año)</label><input type="number" inputmode="numeric" data-xf="pila"></div>
+      <div><label class="f">Aportes AFC / pensión voluntaria</label><input type="number" inputmode="numeric" data-xf="afc"></div>
+      <div><label class="f">Medicina prepagada (año)</label><input type="number" inputmode="numeric" data-xf="prepagada"></div>
+      <div><label class="f">Intereses de vivienda (año)</label><input type="number" inputmode="numeric" data-xf="intViv"></div>
+      <div><label class="f">Intereses ICETEX (año)</label><input type="number" inputmode="numeric" data-xf="icetex"></div>
+      <div><label class="f">GMF 4×1000 pagado</label><input type="number" inputmode="numeric" data-xf="gmf" id="xGmf"></div>
+      <div><label class="f">Anticipo pagado año anterior</label><input type="number" inputmode="numeric" data-xf="anticipoPrev"></div>
+      <div><label class="f">Años declarando</label><select data-xf="anios"><option value="1">Primera vez</option><option value="2">Segundo año</option><option value="3">Tres o más</option></select></div>
+      <div><label class="f">Últimos 2 dígitos cédula</label><input type="text" inputmode="numeric" maxlength="2" data-xf="nit2"></div>
+    </div>
+    <div class="fine" style="margin-top:8px">Dependientes: hijos menores de 18 (o hasta 23 estudiando) que dependan económicamente de ti. Si otra persona ya los declara, no los incluyas.</div>
+  </div>
+
+  <div class="card">
+    <div class="eyebrow">Patrimonio a 31 de diciembre</div>
+    <div class="grid2h">
+      <div><label class="f">Cuentas en Colombia</label><input type="number" inputmode="numeric" data-xp="bancos"></div>
+      <div><label class="f">Cuentas en el exterior (ARQ)</label><input type="number" inputmode="numeric" data-xp="exterior"></div>
+      <div><label class="f">Inversiones (CDT, FIC, AFC)</label><input type="number" inputmode="numeric" data-xp="inversiones"></div>
+      <div><label class="f">Vehículos</label><input type="number" inputmode="numeric" data-xp="vehiculos"></div>
+      <div><label class="f">Inmuebles</label><input type="number" inputmode="numeric" data-xp="inmuebles"></div>
+      <div><label class="f">Otros activos</label><input type="number" inputmode="numeric" data-xp="otros"></div>
+      <div><label class="f">Deudas</label><input type="number" inputmode="numeric" data-xp="deudas"></div>
+      <div><label class="f">Cuentas por cobrar</label><input type="number" inputmode="numeric" data-xp="cxc"></div>
+    </div>
+    <div style="margin-top:10px">
+      <div class="kv"><span>Patrimonio bruto</span><b class="mono" id="xPatB"></b></div>
+      <div class="kv"><span>Patrimonio líquido</span><b class="mono" id="xPatL"></b></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="eyebrow">Checklist para declarar</div>
+    <div id="xCheck" style="margin-top:4px"></div>
+  </div>
+
+  <div class="fine" style="padding:0 4px 16px">Estimación orientativa con las reglas de la Ley 2277 de 2022 (art. 241, 336, 206, 387 E.T.) y la UVT del año. No reemplaza a un contador: úsala para provisionar y llegar con todo listo.</div>
+</section>
+
 <!-- ============ AJUSTES ============ -->
 <section class="view" id="v-set">
   <div class="card">
@@ -309,6 +434,7 @@ nav svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;st
   <button data-v="list"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Movimientos</button>
   <button data-v="sum"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 15v-5M12 15V8M16 15v-3"/></svg>Resumen</button>
   <button data-v="plan"><svg viewBox="0 0 24 24"><path d="M4 20V8M10 20V4M16 20v-9M22 20H2"/></svg>Plan</button>
+  <button data-v="tax"><svg viewBox="0 0 24 24"><path d="M7 3h10v18l-2.5-1.5L12 21l-2.5-1.5L7 21z"/><path d="M10 8h4M10 12h4M10 16h2"/></svg>Fiscal</button>
   <button data-v="set"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Ajustes</button>
 </nav>
 <div class="toast" id="toast"></div>
@@ -355,13 +481,23 @@ const RULES=[
 ];
 const PAY_RE=/abono.*tarjeta|pago.*tarjeta|tarjeta.*abono/;
 
+/* parámetros fiscales por año gravable (UVT fijada por la DIAN) */
+const UVT={2025:49799,2026:52374};
+const uvtOf=y=>UVT[y]||UVT[Math.max(...Object.keys(UVT).map(Number))];
+const TAX_TIPOS=[["honorarios","Honorarios"],["laboral","Laboral"],["exterior","Exterior"],["no","No es ingreso"]];
+/* fiscal.years[año] guarda lo que no sale de los movimientos */
+const YEAR_DEF={ini:{ingresos:0,retenciones:0,compras:0,tc:0,fe:0,salidas:0},deps:0,pila:0,afc:0,prepagada:0,intViv:0,icetex:0,gmf:"",anticipoPrev:0,anios:1,nit2:"",pat:{bancos:0,exterior:0,inversiones:0,vehiculos:0,inmuebles:0,otros:0,deudas:0,cxc:0},check:{}};
+
 function migrate(d){
   d.items=d.items||[];d.cats=d.cats||[];
   if(!d.plan)d.plan={...PLAN_DEF};else d.plan={...PLAN_DEF,...d.plan};
   if(!d.essential)d.essential=[];
   if(!d.sources)d.sources=[{id:"s0",name:"Salario"},{id:"s1",name:"Freelance"},{id:"s2",name:"Otro"}];
+  d.fiscal=d.fiscal||{};
+  d.fiscal.payers=d.fiscal.payers||{};
+  d.fiscal.years=d.fiscal.years||{};
 
-  if(d.v>=2)return d;
+  if(d.v>=2)return migrate3(d);
 
   // 1. crear categorías nuevas que falten
   const byName={};d.cats.forEach(c=>byName[c.name]=c);
@@ -386,6 +522,11 @@ function migrate(d){
   });
 
   d.v=2;
+  return migrate3(d);
+}
+/* v3: ingreso esperado nuevo desde dic-2026 (solo si seguía el valor original) */
+function migrate3(d){
+  if(!(d.v>=3)){if(d.income===8000000)d.income=17700000;d.v=3}
   return d;
 }
 function save(){localStorage.setItem(KEY,JSON.stringify(S))}
@@ -425,6 +566,11 @@ document.querySelectorAll("#kindSeg button").forEach(b=>b.onclick=()=>{
   $("#blkCat").style.display=sel.kind==="gasto"?"":"none";
   $("#blkSrc").style.display=sel.kind==="ingreso"?"":"none";
   $("#blkMethod").style.display=sel.kind==="ingreso"?"none":"";
+  $("#blkFe").style.display=sel.kind==="gasto"?"":"none";
+  const inc=sel.kind==="ingreso";
+  $("#noteLbl").textContent=inc?"Pagador":"Nota";
+  $("#note").placeholder=inc?"Ej. CheckIn":"Opcional";
+  if(inc)$("#note").setAttribute("list","payerList");else $("#note").removeAttribute("list");
   $("#amtWrap").classList.toggle("in",sel.kind==="ingreso");
   $("#save").className="btn"+(sel.kind==="ingreso"?" blue":"");
   $("#save").textContent=sel.kind==="pago"?"Registrar pago":"Guardar";
@@ -435,14 +581,32 @@ $("#amt").addEventListener("input",e=>{
   e.target.value=raw?(+raw).toLocaleString("es-CO"):"";
 });
 
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const METHOD_SHORT={efectivo:"Efectivo",debito:"Débito",credito:"Crédito",transfer:"Transf."};
+
+/* Categoría y fuente en desplegable; las 5 más usadas en los últimos 60 días van arriba */
 function renderChips(){
-  $("#catChips").innerHTML=S.cats.map(c=>`<button class="chip${c.id===sel.cat?" on":""}" data-c="${c.id}">${c.name}</button>`).join("");
-  $("#catChips").querySelectorAll("button").forEach(b=>b.onclick=()=>{sel.cat=b.dataset.c;renderChips()});
-  $("#srcChips").innerHTML=S.sources.map(s=>`<button class="chip${s.id===sel.src?" on":""}" data-s="${s.id}">${s.name}</button>`).join("");
-  $("#srcChips").querySelectorAll("button").forEach(b=>b.onclick=()=>{sel.src=b.dataset.s;renderChips()});
-  $("#methodChips").innerHTML=METHODS.map(m=>`<button class="chip sm${m[0]===sel.method?" on":""}" data-m="${m[0]}">${m[1]}</button>`).join("");
-  $("#methodChips").querySelectorAll("button").forEach(b=>b.onclick=()=>{sel.method=b.dataset.m;renderChips()});
+  const lim=new Date();lim.setDate(lim.getDate()-60);const lk=lim.toISOString().slice(0,10);
+  const cnt={};S.items.forEach(i=>{if(kindOf(i)==="gasto"&&i.date>=lk)cnt[i.cat]=(cnt[i.cat]||0)+1});
+  const top=S.cats.filter(c=>cnt[c.id]).sort((a,b)=>cnt[b.id]-cnt[a.id]).slice(0,5);
+  const opt=c=>`<option value="${c.id}">${esc(c.name)}</option>`;
+  const rest=S.cats.filter(c=>!top.includes(c)).sort((a,b)=>a.name.localeCompare(b.name,"es"));
+  $("#catSel").innerHTML=top.length
+    ?`<optgroup label="Más usadas">${top.map(opt).join("")}</optgroup><optgroup label="Todas">${rest.map(opt).join("")}</optgroup>`
+    :S.cats.map(opt).join("");
+  if(!S.cats.some(c=>c.id===sel.cat))sel.cat=(top[0]||S.cats[0]||{}).id;
+  $("#catSel").value=sel.cat;
+  $("#srcSel").innerHTML=S.sources.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join("");
+  $("#srcSel").value=sel.src;
+  $("#methodSeg").innerHTML=METHODS.map(m=>`<button type="button" data-m="${m[0]}" class="${m[0]===sel.method?"on":""}">${METHOD_SHORT[m[0]]}</button>`).join("");
+  $("#methodSeg").querySelectorAll("button").forEach(b=>b.onclick=()=>{sel.method=b.dataset.m;renderChips()});
+  const payers=[...new Set(S.items.filter(i=>kindOf(i)==="ingreso"&&i.note).map(i=>i.note.trim()))];
+  $("#payerList").innerHTML=payers.map(p=>`<option value="${esc(p)}">`).join("");
+  $("#fe").disabled=sel.method==="efectivo";
+  if(sel.method==="efectivo")$("#fe").checked=false;
 }
+$("#catSel").onchange=e=>{sel.cat=e.target.value};
+$("#srcSel").onchange=e=>{sel.src=e.target.value};
 
 $("#save").onclick=()=>{
   const amt=+$("#amt").value.replace(/\D/g,"");
@@ -450,11 +614,11 @@ $("#save").onclick=()=>{
   const date=$("#date").value||today();
   const note=$("#note").value.trim();
   const it={id:Math.random().toString(36).slice(2,10),date,amt,note};
-  if(sel.kind==="gasto"){it.cat=sel.cat;it.method=sel.method}
+  if(sel.kind==="gasto"){it.cat=sel.cat;it.method=sel.method;if($("#fe").checked&&sel.method!=="efectivo")it.fe=true}
   else if(sel.kind==="ingreso"){it.kind="ingreso";it.src=sel.src}
   else{it.kind="pago";it.method=sel.method}
   S.items.unshift(it);save();
-  $("#amt").value="";$("#note").value="";
+  $("#amt").value="";$("#note").value="";$("#fe").checked=false;$("#amt").blur();$("#note").blur();
   toast(sel.kind==="ingreso"?"Ingreso guardado":sel.kind==="pago"?"Pago registrado":"Guardado");
   render();
 };
@@ -503,7 +667,7 @@ function renderList(){
       const cls=kd==="ingreso"?" inc":kd==="pago"?" pay":"";
       const label=kd==="ingreso"?srcName(i.src):kd==="pago"?"Pago de tarjeta":catName(i.cat);
       const meta=kd==="ingreso"?"Ingreso":methodName(i.method);
-      return `<div class="it${cls}"><div><div class="n">${i.note||label}</div><div class="c">${label} · ${meta}</div></div>
+      return `<div class="it${cls}"><div><div class="n">${esc(i.note||label)}</div><div class="c">${esc(label)} · ${meta}${i.fe?' <span class="tag">FE</span>':''}</div></div>
       <div class="row"><span class="a">${kd==="ingreso"?"+":""}${fmt(i.amt)}</span><button class="x" data-del="${i.id}" aria-label="Eliminar">×</button></div></div>`;
     }).join("");
   }).join("");
@@ -653,6 +817,241 @@ function renderPlan(){
 }
 document.querySelectorAll("#v-plan [data-p]").forEach(i=>i.onchange=()=>{S.plan[i.dataset.p]=+i.value||0;save();renderPlan()});
 
+/* ---------- fiscal ---------- */
+function fy(y){
+  const F=S.fiscal.years;
+  if(!F[y])F[y]=JSON.parse(JSON.stringify(YEAR_DEF));
+  const o=F[y];
+  for(const k in YEAR_DEF)if(o[k]===undefined)o[k]=JSON.parse(JSON.stringify(YEAR_DEF[k]));
+  o.ini={...YEAR_DEF.ini,...o.ini};o.pat={...YEAR_DEF.pat,...o.pat};o.check=o.check||{};
+  return o;
+}
+const payerKey=i=>(i.note||"").trim()||"Sin pagador";
+const pcfg=name=>S.fiscal.payers[name.toLowerCase()]||{};
+
+/* Art. 241 E.T.: renta líquida gravable en UVT → impuesto en UVT */
+function imp241(u){
+  if(u<=1090)return 0;
+  if(u<=1700)return (u-1090)*.19;
+  if(u<=4100)return (u-1700)*.28+116;
+  if(u<=8670)return (u-4100)*.33+788;
+  if(u<=18970)return (u-8670)*.35+2296;
+  if(u<=31000)return (u-18970)*.37+5901;
+  return (u-31000)*.39+10352;
+}
+function marg241(u){return u<=1090?0:u<=1700?.19:u<=4100?.28:u<=8670?.33:u<=18970?.35:u<=31000?.37:.39}
+const r1k=n=>Math.round(n/1000)*1000;
+
+function taxModel(y,extraAfc=0){
+  const U=uvtOf(y),Y=fy(y),ys=String(y);
+  const its=S.items.filter(i=>i.date.slice(0,4)===ys);
+  const firstAll=S.items.map(i=>i.date).sort()[0]||today();
+  const appStart=firstAll.slice(0,4)===ys?firstAll:(firstAll.slice(0,4)<ys?ys+"-01-01":null);
+
+  /* pagadores: neto registrado → bruto y retención con el % de cada uno */
+  const pay={};
+  its.filter(i=>kindOf(i)==="ingreso").forEach(i=>{
+    const name=payerKey(i),kk=name.toLowerCase();
+    (pay[kk]=pay[kk]||{key:kk,name,neto:0,n:0}).neto+=i.amt;pay[kk].n++;
+  });
+  const reg={laboral:0,honorarios:0,exterior:0,no:0};let regRet=0,regNeto=0,unconf=0;
+  Object.values(pay).forEach(p=>{
+    const c=S.fiscal.payers[p.key]||{};
+    p.tipo=c.tipo||"honorarios";p.conf=!!c.tipo;
+    const r=p.tipo==="exterior"||p.tipo==="no"?0:Math.min(Math.max(+c.ret||0,0),60)/100;
+    p.ret=r;p.bruto=p.neto/(1-r);
+    reg[p.tipo]+=p.bruto;
+    if(p.tipo!=="no"){regRet+=p.bruto-p.neto;regNeto+=p.neto;if(!p.conf)unconf++}
+  });
+  const regBruto=reg.laboral+reg.honorarios+reg.exterior;
+
+  /* proyección a 31-dic con el ingreso esperado de Ajustes */
+  const cy=+today().slice(0,4);
+  let fRem=0;
+  if(y===cy){const m=+today().slice(5,7),d=+today().slice(8,10);fRem=(12-m)+(1-d/daysIn(mk(today())))}
+  else if(y>cy)fRem=12;
+  const cur=mk(today());
+  const closed=[...new Set(S.items.map(i=>mk(i.date)))].filter(k=>k<cur).sort().reverse().slice(0,3);
+  const avgM=f=>closed.length?closed.reduce((a,k)=>a+f(k),0)/closed.length:0;
+  const avgG=avgM(k=>sum(gastos(k)));
+  const avgTC=avgM(k=>sum(gastos(k).filter(i=>i.method==="credito")));
+  const avgOut=avgM(k=>sum(gastos(k).filter(i=>i.method==="debito"||i.method==="transfer"))+sum(pagos(k)));
+  const avgFE=avgM(k=>sum(gastos(k).filter(i=>i.fe)));
+  const incExp=+S.income||0;
+  const gross=regNeto>0?regBruto/regNeto:1;               // factor neto→bruto observado
+  const share=t=>regBruto>0?reg[t]/regBruto:(t==="honorarios"?1:0);
+  const futNeto=incExp*fRem,futBruto=futNeto*gross;
+  const iniB=+Y.ini.ingresos||0;
+  const P={};
+  ["laboral","honorarios","exterior"].forEach(t=>P[t]=reg[t]+(futBruto+iniB)*share(t));
+  const brutoP=P.laboral+P.honorarios+P.exterior;
+  const retP=regRet+(futBruto-futNeto)+(+Y.ini.retenciones||0);
+
+  const g=its.filter(i=>kindOf(i)==="gasto");
+  const comprasR=sum(g)+(+Y.ini.compras||0);
+  const tcR=sum(g.filter(i=>i.method==="credito"))+(+Y.ini.tc||0);
+  const feR=sum(g.filter(i=>i.fe))+(+Y.ini.fe||0);
+  const outR=sum(g.filter(i=>i.method==="debito"||i.method==="transfer"))+sum(its.filter(i=>kindOf(i)==="pago"))+(+Y.ini.salidas||0);
+  const consR=regNeto+iniB-(+Y.ini.retenciones||0);
+  const comprasP=comprasR+avgG*fRem,tcP=tcR+avgTC*fRem,feP=feR+avgFE*fRem,outP=outR+avgOut*fRem,consP=consR+futNeto;
+  const brutoR=regBruto+iniB;
+
+  /* depuración cédula general (Ley 2277) */
+  const incr=P.laboral*.08+(+Y.pila||0);                  // aportes obligatorios: INCRNGO
+  const neto=Math.max(0,brutoP-incr);
+  const laboralMode=P.laboral>=P.honorarios+P.exterior;
+  const deps=Math.min(4,+Y.deps||0);
+  const ded10=deps>0&&laboralMode?Math.min(.1*P.laboral,384*U):0;   // art. 387
+  const gmfEst=r1k(outP*.004);
+  const gmfPag=(Y.gmf===""||Y.gmf==null)?gmfEst:+Y.gmf;
+  const dGmf=.5*gmfPag;
+  const dViv=Math.min(+Y.intViv||0,1200*U),dPrep=Math.min(+Y.prepagada||0,192*U),dIce=Math.min(+Y.icetex||0,100*U);
+  const afcIn=(+Y.afc||0)+extraAfc;
+  const afc=Math.min(afcIn,.3*brutoP,3800*U);
+  const sub=ded10+dViv+dPrep+dIce+dGmf+afc;
+  const ex25=Math.min(.25*Math.max(0,neto-sub),790*U);
+  const capTop=Math.min(.4*neto,1340*U);
+  const capped=Math.min(sub+ex25,capTop);
+  const dep72=deps*72*U;                                       // fuera del límite
+  const fe1=Math.min(.01*feP,240*U);                           // fuera del límite
+  const rlg=Math.max(0,neto-capped-dep72-fe1);
+  const imp=r1k(imp241(rlg/U)*U);
+  const pct=[0,.25,.5,.75][Math.min(3,Math.max(1,+Y.anios||1))];
+  const anticipo=Math.max(0,r1k(imp*pct-retP));
+  const saldo=r1k(imp+anticipo-retP-(+Y.anticipoPrev||0));
+  const pat=Y.pat,patB=pat.bancos+pat.exterior+pat.inversiones+pat.vehiculos+pat.inmuebles+pat.otros+pat.cxc,patL=patB-pat.deudas;
+
+  return{U,Y,y,appStart,pay:Object.values(pay).sort((a,b)=>b.neto-a.neto),unconf,fRem,incExp,gross,
+    brutoR,brutoP,retP,P,comprasR,comprasP,tcR,tcP,feR,feP,consR,consP,outP,gmfEst,
+    incr,neto,ded10,dViv,dPrep,dIce,dGmf,afc,ex25,sub,capTop,capped,dep72,fe1,rlg,imp,pct,anticipo,saldo,patB,patL,
+    marg:marg241(rlg/U),noSinPagador:its.filter(i=>kindOf(i)==="ingreso"&&!(i.note||"").trim()).length};
+}
+
+function renderTax(){
+  const cy=+today().slice(0,4);
+  const ys=[...new Set(S.items.map(i=>+i.date.slice(0,4)).concat(cy))].sort((a,b)=>b-a);
+  const ysel=$("#xYear"),prev=+ysel.value;
+  ysel.innerHTML=ys.map(y=>`<option value="${y}">${y} · se declara en ${y+1}</option>`).join("");
+  ysel.value=ys.includes(prev)?prev:cy;
+  const y=+ysel.value,M=taxModel(y),U=M.U,Y=M.Y;
+  const fmtM=n=>"$"+(n/1e6).toLocaleString("es-CO",{maximumFractionDigits:1})+" M";
+  $("#xUvt").textContent="UVT "+y+": "+fmt(U)+(UVT[y]?"":" (estimada)");
+
+  /* topes */
+  const T=[
+    ["Ingresos brutos",M.brutoR,M.brutoP,1400],
+    ["Patrimonio bruto a 31-dic",M.patB,M.patB,4500],
+    ["Consumos con tarjeta de crédito",M.tcR,M.tcP,1400],
+    ["Compras y consumos totales",M.comprasR,M.comprasP,1400],
+    ["Consignaciones y depósitos (aprox.)",M.consR,M.consP,1400]
+  ];
+  const obliga=T.filter(t=>t[2]>=t[3]*U);
+  $("#xTopes").innerHTML=T.map(([n,r,p,u])=>{
+    const tope=u*U,pc=p/tope*100,hit=p>=tope;
+    return `<div style="margin-top:12px"><div class="kv" style="border:0;padding:0"><span>${n}</span><b class="mono">${fmtM(p)} <span class="sub">/ ${fmtM(tope)}</span></b></div>
+    ${bar(pc,hit?"over":pc>70?"warn":"")}<div class="fine">${hit?"Supera el tope · ":""}Registrado hoy ${fmt(r)} · tope ${u.toLocaleString("es-CO")} UVT</div></div>`;
+  }).join("");
+  const falta=M.appStart&&M.appStart>y+"-01-01"&&!(+Y.ini.ingresos);
+  $("#xStatus").innerHTML=obliga.length
+    ?`<span class="pill r">Debes declarar en ${y+1}</span> <span class="sub">· superas ${obliga.length} de 5 topes</span>`
+    :falta?`<span class="pill a">Faltan datos de antes del ${new Date(M.appStart+"T12:00").toLocaleDateString("es-CO",{day:"numeric",month:"short"})}</span> <span class="sub">· llena "Antes de usar la app"</span>`
+    :`<span class="pill">Por ahora no superas los topes</span>`;
+  $("#xBasis").textContent=(M.appStart?`Movimientos en la app desde el ${new Date(M.appStart+"T12:00").toLocaleDateString("es-CO",{day:"numeric",month:"short"})}. `:"")
+    +(M.fRem>0?`Proyección: ingreso esperado de ${fmt(M.incExp)} netos/mes (Ajustes) por ${M.fRem.toLocaleString("es-CO",{maximumFractionDigits:1})} meses más.`:"Año cerrado: solo datos registrados.");
+
+  /* cálculo */
+  const s=M.saldo;
+  $("#xSaldo").textContent=fmt(Math.abs(s));
+  $("#xSaldo").style.color=s>0?"var(--rose)":"var(--green)";
+  $("#xSaldoSub").textContent=s>0?"Saldo a pagar estimado en la declaración":"Saldo a favor estimado: te retuvieron más de lo que causas";
+  const L=(a,b,c)=>`<div class="kv"><span>${a}</span><b class="mono">${b}</b></div>`+(c?`<div class="fine" style="margin:-4px 0 4px">${c}</div>`:"");
+  $("#xCalc").innerHTML=
+    L("Ingresos brutos (rentas de trabajo)",fmt(M.brutoP),M.P.laboral?`Laborales ${fmt(M.P.laboral)} · honorarios ${fmt(M.P.honorarios)} · exterior ${fmt(M.P.exterior)}`:"")+
+    L("− Aportes obligatorios (salud y pensión)",fmt(M.incr))+
+    L("= Ingreso neto",fmt(M.neto))+
+    L("− Deducciones y rentas exentas",fmt(M.capped),`Exenta 25%: ${fmt(M.ex25)} · AFC: ${fmt(M.afc)} · ½ GMF: ${fmt(M.dGmf)}${M.ded10?" · dependientes 10%: "+fmt(M.ded10):""}${M.dViv+M.dPrep+M.dIce?" · vivienda/prepagada/ICETEX: "+fmt(M.dViv+M.dPrep+M.dIce):""}. Tope: ${fmt(M.capTop)} (40% o 1.340 UVT)`)+
+    (M.dep72?L("− Dependientes (72 UVT c/u)",fmt(M.dep72)):"")+
+    L("− 1% compras con factura electrónica",fmt(M.fe1),`Sobre ${fmt(M.feP)} en compras con FE`)+
+    L("= Renta líquida gravable",fmt(M.rlg),`${Math.round(M.rlg/U).toLocaleString("es-CO")} UVT · tarifa marginal ${Math.round(M.marg*100)}%`)+
+    L("Impuesto de renta (art. 241)",fmt(M.imp))+
+    L("+ Anticipo año siguiente",fmt(M.anticipo),`${M.pct*100}% del impuesto menos retenciones`)+
+    L("− Retenciones que ya te hicieron",fmt(M.retP))+
+    (+Y.anticipoPrev?L("− Anticipo pagado el año anterior",fmt(+Y.anticipoPrev)):"");
+  const now=new Date(),mLeft=Math.max(1,(y+1-now.getFullYear())*12+7-now.getMonth());
+  $("#xProv").innerHTML=s>0
+    ?`<b>Provisiona ${fmt(r1k(s/mLeft))} al mes</b> durante ${mLeft} meses para pagar en agosto de ${y+1} sin afectar tus metas.`
+    :`Con estos datos no tendrías que pagar. Igual debes presentar la declaración${obliga.length?"":" si superas algún tope"}; un saldo a favor se pide en devolución o se compensa.`;
+
+  /* alertas */
+  const A=[];
+  if(M.unconf)A.push(["r","Configura tus pagadores",`${M.unconf} pagador${M.unconf>1?"es":""} sin tipo ni % de retención. Sin eso la app no sabe cuánto te retuvieron y el saldo sale más alto de lo real.`]);
+  const hs=M.brutoP?(M.P.honorarios+M.P.exterior)/M.brutoP:0;
+  const honM=(M.incExp?M.incExp*M.gross:M.brutoP/12)*hs;
+  if(honM>0&&!(+Y.pila))A.push(["r","Seguridad social como contratista",`Si tus ingresos son por prestación de servicios, debes cotizar salud (12,5%) y pensión (16%) sobre el 40% de lo que recibes al mes, más ARL. Con tu promedio serían unos ${fmt(r1k(honM*.4*.29))}/mes. Lo que pagues se resta como aporte obligatorio y baja tu impuesto.`]);
+  if(M.noSinPagador)A.push(["a","Ingresos sin pagador",M.noSinPagador>1?`${M.noSinPagador} ingresos del año no tienen pagador en la nota; quedan agrupados como "Sin pagador".`:`1 ingreso del año no tiene pagador en la nota; queda como "Sin pagador".`]);
+  if(M.P.exterior>0)A.push(["b","Ingresos del exterior",`Convierte cada pago a pesos con la TRM del día en que lo recibiste. No tienen retención en Colombia, así que todo el impuesto sale en la declaración.`]);
+  if(M.patB&&Y.pat.exterior>2000*U)A.push(["a","Activos en el exterior",`Tus cuentas fuera de Colombia superan 2.000 UVT (${fmt(2000*U)}): además de la renta debes presentar la declaración de activos en el exterior (formulario 160).`]);
+  const roomAfc=Math.max(0,M.capTop-M.capped);
+  if(roomAfc>1000000&&M.marg>0){
+    const add=Math.min(roomAfc/.75,.3*M.brutoP-M.afc,3800*U-M.afc);
+    if(add>500000){const M2=taxModel(y,add);const ahorro=(M.imp+M.anticipo)-(M2.imp+M2.anticipo);
+      if(ahorro>100000)A.push(["b","AFC: tu cuota inicial puede bajar el impuesto",`Te quedan ${fmt(roomAfc)} de espacio en el límite del 40%. Si llevas ${fmt(r1k(add))} de tu ahorro para vivienda a una cuenta AFC antes del 31-dic, el impuesto bajaría unos ${fmt(r1k(ahorro))}. Es plata que igual vas a ahorrar para los $50 M.`])}
+  }
+  const sinFE=Math.max(0,M.comprasP-M.feP);
+  if(M.fe1<240*U&&sinFE>0)A.push(["b","Pide factura electrónica a tu cédula",`Con ${fmt(M.feP)} en compras con FE deduces ${fmt(M.fe1)}. Si tus otros ${fmt(r1k(sinFE))} en compras del año (pagados con tarjeta o transferencia) tuvieran factura, deducirías hasta ${fmt(r1k(Math.min(.01*M.comprasP,240*U)))}. Marca la casilla al registrar.`]);
+  $("#xAlerts").innerHTML=A.length?A.map(([c,t,d])=>`<div class="alert ${c}"><b>${t}</b>${d}</div>`).join(""):`<div class="sub" style="margin-top:6px">Todo en orden por ahora.</div>`;
+
+  /* pagadores */
+  $("#xPayers").innerHTML=M.pay.length?M.pay.map(p=>`<div class="payer">
+    <div class="top"><b>${esc(p.name)}</b><span class="mono">${fmt(p.neto)}</span></div>
+    <div class="grid2h">
+      <div><select data-pt="${esc(p.key)}">${TAX_TIPOS.map(([v,l])=>`<option value="${v}"${v===p.tipo?" selected":""}>${l}</option>`).join("")}</select></div>
+      <div style="display:flex;align-items:center;gap:6px"><input type="number" inputmode="decimal" step="0.5" min="0" max="60" placeholder="Retención" data-pr="${esc(p.key)}" value="${pcfg(p.name).ret??""}" ${p.tipo==="exterior"||p.tipo==="no"?"disabled":""}><span class="sub">%</span></div>
+    </div>
+    <div class="fine" style="margin-top:6px">${p.n} pago${p.n>1?"s":""} · bruto ${fmt(p.bruto)} · retenido ${fmt(p.bruto-p.neto)} ${p.conf?"":'<span class="pill a" style="margin-left:4px">Sin configurar</span>'}</div>
+  </div>`).join("")+`<div class="fine" style="margin-top:8px">Honorarios: la retención suele ser 10% u 11% (o la tabla de asalariados si lo pediste por escrito). Laboral: revisa tu desprendible. Exterior: 0%.</div>`
+  :`<div class="sub" style="margin-top:8px">Aún no hay ingresos registrados este año.</div>`;
+  $("#xPayers").querySelectorAll("[data-pt]").forEach(el=>el.onchange=()=>{const k=el.dataset.pt;S.fiscal.payers[k]={...S.fiscal.payers[k],tipo:el.value};save();renderTax()});
+  $("#xPayers").querySelectorAll("[data-pr]").forEach(el=>el.onchange=()=>{const k=el.dataset.pr;const c={...S.fiscal.payers[k]};c.ret=el.value===""?undefined:+el.value;if(!c.tipo)c.tipo="honorarios";S.fiscal.payers[k]=c;save();renderTax()});
+
+  /* inputs del año */
+  $("#xIniHint").textContent=M.appStart&&M.appStart>y+"-01-01"
+    ?`La app tiene datos desde el ${new Date(M.appStart+"T12:00").toLocaleDateString("es-CO",{day:"numeric",month:"long"})}. Suma aquí lo de antes (1 de enero a esa fecha), tomado de extractos y certificados.`
+    :"Usa esta sección para lo que no registraste en la app ese año.";
+  const setv=(el,v)=>{if(document.activeElement!==el)el.value=v??""};
+  document.querySelectorAll("#v-tax [data-xi]").forEach(el=>setv(el,Y.ini[el.dataset.xi]||""));
+  document.querySelectorAll("#v-tax [data-xf]").forEach(el=>setv(el,el.dataset.xf==="gmf"?Y.gmf:(Y[el.dataset.xf]===0&&el.tagName!=="SELECT"?"":Y[el.dataset.xf])));
+  document.querySelectorAll("#v-tax [data-xp]").forEach(el=>setv(el,Y.pat[el.dataset.xp]||""));
+  $("#xGmf").placeholder="Estimado "+fmt(M.gmfEst);
+  $("#xPatB").textContent=fmt(M.patB);$("#xPatL").textContent=fmt(M.patL);
+
+  /* checklist */
+  const d2=(Y.nit2||"").trim();
+  const C=[
+    ["rut","RUT actualizado con tu actividad económica actual y la responsabilidad de renta."],
+    ["firma","Firma electrónica de la DIAN activa (se renueva cada 3 años)."],
+    ["cert","Certificados de ingresos y retenciones de cada pagador ("+(M.pay.filter(p=>p.tipo!=="no").map(p=>esc(p.name)).slice(0,6).join(", ")||"tus pagadores")+")."],
+    ["bancos","Certificados bancarios con saldo a 31-dic y GMF pagado, incluida la cuenta en el exterior."],
+    ["pila","Planillas de seguridad social pagadas en el año."],
+    ["fe","Facturas electrónicas recibidas a tu cédula (portal DIAN) para el 1%."],
+    ["deps","Soportes de dependientes: registro civil o certificado de estudio."],
+    ["afc","Certificado de aportes AFC o pensión voluntaria."],
+    ["pat","Inventario de bienes y deudas a 31-dic (vehículo, inmuebles, préstamos, cuentas por cobrar)."],
+    ["trm","Ingresos del exterior convertidos a pesos con la TRM de cada fecha."]
+  ];
+  $("#xCheck").innerHTML=`<div class="fine" style="margin:4px 0 6px">Vence entre agosto y octubre de ${y+1} según los dos últimos dígitos de tu cédula${d2?" ("+esc(d2)+")":""}. La DIAN publica el calendario exacto en diciembre.</div>`+
+    C.map(([k,t])=>`<label class="ck${Y.check[k]?" done":""}"><input type="checkbox" data-ck="${k}" ${Y.check[k]?"checked":""}><span>${t}</span></label>`).join("");
+  $("#xCheck").querySelectorAll("[data-ck]").forEach(el=>el.onchange=()=>{Y.check[el.dataset.ck]=el.checked;save();renderTax()});
+}
+$("#xYear").onchange=renderTax;
+document.querySelectorAll("#v-tax [data-xi],#v-tax [data-xf],#v-tax [data-xp]").forEach(el=>el.onchange=()=>{
+  const Y=fy(+$("#xYear").value);
+  if(el.dataset.xi)Y.ini[el.dataset.xi]=+el.value||0;
+  else if(el.dataset.xp)Y.pat[el.dataset.xp]=+el.value||0;
+  else{const k=el.dataset.xf;Y[k]=k==="nit2"?el.value.replace(/\D/g,"").slice(0,2):k==="gmf"?(el.value===""?"":+el.value):(+el.value||0)}
+  save();renderTax();
+});
+
 /* ---------- ajustes ---------- */
 function renderSet(){
   $("#income").value=S.income;$("#cupo").value=S.cupo;
@@ -717,7 +1116,7 @@ function download(name,content,type){const a=document.createElement("a");a.href=
 function render(){
   $("#hdr").textContent=new Date().toLocaleDateString("es-CO",{day:"numeric",month:"short"});
   if(!$("#date").value)$("#date").value=today();
-  renderChips();renderToday();renderMonthSel();renderList();renderSum();renderPlan();renderSet();
+  renderChips();renderToday();renderMonthSel();renderList();renderSum();renderPlan();renderTax();renderSet();
 }
 save();render();
 
