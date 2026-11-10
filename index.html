@@ -929,7 +929,7 @@ function taxModel(y,extraAfc=0){
 
 function renderTax(){
   const cy=+today().slice(0,4);
-  const ys=[...new Set(S.items.map(i=>+i.date.slice(0,4)).concat(cy))].sort((a,b)=>b-a);
+  const ys=[...new Set(S.items.map(i=>+i.date.slice(0,4)).concat(cy,cy-1))].sort((a,b)=>b-a);
   const ysel=$("#xYear"),prev=+ysel.value;
   ysel.innerHTML=ys.map(y=>`<option value="${y}">${y} · se declara en ${y+1}</option>`).join("");
   ysel.value=ys.includes(prev)?prev:cy;
